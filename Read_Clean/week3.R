@@ -30,3 +30,46 @@ arrange(X,desc(var1))
 ##Adding rows and cols
 X$var4 <- rnorm(5)
 Y <- cbind(X,rnorm(5))
+
+
+
+##Getting data from web
+if(!file.exists("./data")){dir.create("./data")}
+fileURL <- "https://data.baltimorecity.gov/api/views/k5ry-ef3g/rows.csv?accessType=DOWNLOAD"
+download.file(fileURL,destfile="./data/restaurants.csv",method="curl")
+restData <- read.csv("./data/restaurants.csv")
+head(restData,n=3)
+tail(restData,n=3)
+##summary
+summary(restData)
+##quantile
+quantile(restData$councilDistrict,na.rm=T)
+quantile(restData$councilDistrict,probs=c(0.5,0.75,0.9))
+##table
+table(restData$zipCode,useNA="ifany")
+table(restData$councilDistrict ,restData$zipCode)
+##check for NA
+sum(is.na(restData$councilDistrict))
+any(is.na(restData$councilDistrict))
+all(restData$zipCode>0)
+##Row and Col sum
+colSums(is.na(restData))
+all(colSums(is.na(restData))==0)
+##Values with specific char
+table(restData$zipCode %in% c("21212"))
+table(restData$zipCode %in% c("21212","21213"))
+restData[restData$zipCode %in% c("21212","21213"),c(1,2)]
+##Cross tabs
+data(UCBAdmissions)
+DF = as.data.frame(UCBAdmissions)
+summary(DF)
+xt<-xtabs(Freq ~ Gender + Admit, data=DF)
+xt
+##Flat tables
+warpbreaks$replicate <- rep(1:9,len=54)
+xt = xtabs(breaks ~., data=warpbreaks)
+ftable(xt)
+##Size of data set
+fakeData = rnorm(1e5)
+object.size(fakeData)
+print(object.size(fakeData),units="MB")
