@@ -73,3 +73,104 @@ ftable(xt)
 fakeData = rnorm(1e5)
 object.size(fakeData)
 print(object.size(fakeData),units="MB")
+
+##use same restaurant data as above
+
+##create sequence
+s1 <- seq(1,10,by=2)
+s2 <- seq(1,10,length=3)
+x <- c(1,3,8,25,100)
+seq(along =x)
+##subsetting var
+restData$nearMe <- restData$neighborhood %in% c("Roland Park", "Homeland")
+table(restData$nearMe)
+
+##Creating bin var
+restData$zipWrong <- ifelse(restData$zipCode < 0, TRUE, FALSE)
+table(restData$zipWrong, restData$zipCode < 0)
+##Creating category var
+restData$zipGroups <- cut(restData$zipCode, breaks=quantile(restData$zipCode))
+table(restData$zipGroups)
+table(restData$zipGroups, restData$zipCode)
+##Easier cutting
+library(Hmisc)
+restData$zipGroups <- cut2(restData$zipCode, g=4)
+table(restData$zipGroups)
+##Creating factor var
+restData$zcf <- factor(restData$zipCode)
+restData$zcf[1:10]
+class(restData$zcf)
+##Levels of factor var
+yesno <- sample(c("yes","no"), size=10, replace=TRUE)
+yesnofac <- factor(yesno, levels=c("yes","no"))
+relevel(yesnofac, ref="yes")
+as.numeric(yesnofac)
+##Using mutate func
+library(Hmisc)
+library(plyr)
+restData2 <- mutate(restData, zipGroups <- cut2(zipCode, g=4))
+table(restData2$zipGroups)
+
+
+##reshaping
+library(reshape2)
+head(mtcars)
+mtcars$carname <- rownames(mtcars)
+carMelt <- melt(mtcars, id=c("carname", "gear", "cyl"), measure.vars=c("mpg", "hp"))
+cylData <- dcast(carMelt, cyl ~ variable)
+cylData <- dcast(carMelt, cyl ~ variable, mean)
+mData <- dcast(carMelt, cyl + gear ~ variable, mean)
+
+##Averaging
+head(InsectSprays)
+tapply(InsectSprays$count, InsectSprays$spray, sum)
+spIns <- split(InsectSprays$count,InsectSprays$spray)
+
+sprCount <- lapply(spIns, sum)
+unlist(sprCount)
+
+sapply(spIns, sum)
+
+
+ddply(InsectSprays, .(spray), summarize, sum=sum(count))
+
+##create new var
+spraySums <- ddply(InsectSprays, .(spray), summarize, sum=ave(count, FUN=sum))
+
+
+##more func
+##acast(...), arrange(...), mutate(...)
+
+
+##dplyr
+##designed to work with data frame
+library(dplyr)
+chicago <- readRDS("chicago.rds")
+head(select(chicago, city:dptp))
+head(select(chicago, -(city:dptp)))
+
+chic.f <- filter(chicago, pm25tmean2 > 30)
+head(chic.f)
+chic.f <- filter(chicago, pm25tmean2 > 30 & tmpd > 80)
+head(chic.f)
+
+chicago <- arrange(chicago, date)
+chicago <- arrange(chicago, desc(date))
+
+chicago <- rename(chicago, pm25 = pm25tmean2, dewpoint=dptp)
+
+chicago <- mutate(chicago, pm25detrend=pm25-mean(pm25, na.rm=TRUE))
+head(select(chicago, pm25, pm25detrend))
+
+chicago <- mutate(chicago, tempcat = factor(1*(tmpd>80), labels=c("cold","hot")))
+hotcold <- group_by(chicago, tempcat)
+
+summarize(hotcold, pm25=mean(pm25, na.rm=TRUE), o3=max(o3tmean2), no2=median(no2tmean2))
+
+chicago <- mutate(chicago, year=as.POSIXlt(date)$year+1900)
+years <- group_by(chicago, year)
+summarize(years, pm25=mean(pm25,na.rm=TRUE), o3=max(o3tmean2), no2=median(no2tmean2))
+
+chicago %>% mutate(month=as.POSIXlt(date)$mon + 1) %>% group_by(month) %>% summarize(pm25=mean(pm25, na.rm=TRUE), o3=max(o3tmean2), no2=median(no2tmean2))
+
+
