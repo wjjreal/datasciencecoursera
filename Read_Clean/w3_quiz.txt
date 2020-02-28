@@ -19,7 +19,7 @@ What are the first 3 values that result?
 403, 756, 798
 
 
-125, 238,262
+125, 238,262    X
 
 
 59, 460, 474
@@ -43,7 +43,7 @@ Use the parameter native=TRUE. What are the 30th and 80th quantiles of the resul
 10904118 -594524
 
 
--15259150 -10575416
+-15259150 -10575416  X
 
 1 point
 
@@ -65,7 +65,7 @@ http://data.worldbank.org/data-catalog/GDP-ranking-table
 http://data.worldbank.org/data-catalog/ed-stats
 
 
-234 matches, 13th country is Spain
+234 matches, 13th country is Spain		
 
 
 189 matches, 13th country is St. Kitts and Nevis
@@ -74,7 +74,7 @@ http://data.worldbank.org/data-catalog/ed-stats
 189 matches, 13th country is Spain
 
 
-234 matches, 13th country is St. Kitts and Nevis
+234 matches, 13th country is St. Kitts and Nevis	X
 
 
 190 matches, 13th country is St. Kitts and Nevis

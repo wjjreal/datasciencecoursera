@@ -203,3 +203,22 @@ df3 <- data.frame(id=sample(1:10),z=rnorm(10))
 dfList <- list(df1,df2,df3)
 join_all(dfList)
 
+##image
+imgUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fjeff.jpg"
+z <- tempfile()
+download.file(imgUrl,z,mode="wb")
+imgdf <- readJPEG(z,TRUE)
+quantile(imgdf,probs=c(0,0.3,0.8,1))
+
+##merge
+grossdf <- read.csv("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv", skip=4, stringsAsFactors=FALSE)
+edudf <- read.csv("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv", stringsAsFactors=FALSE)
+mdf <- merge(grossdf, edudf, by.x="X", by.y="CountryCode", all=FALSE)
+mdf <- mdf[!is.na(mdf$X.1),]
+mdf_g <- group_by(mdf,Income.Group)
+breaks <- quantile(mdf$X.1,na.rm=TRUE,probs=seq(0,1,0.2))
+mdf$quantileGDPRank <- cut(mdf$X.1, breaks=breaks)
+select(filter(mdf,Income.Group == "Lower middle income" & quantileGDPRank== "(1,38.6]"),X,quantileGDPRank)
+
+
+
