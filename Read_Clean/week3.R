@@ -174,3 +174,32 @@ summarize(years, pm25=mean(pm25,na.rm=TRUE), o3=max(o3tmean2), no2=median(no2tme
 chicago %>% mutate(month=as.POSIXlt(date)$mon + 1) %>% group_by(month) %>% summarize(pm25=mean(pm25, na.rm=TRUE), o3=max(o3tmean2), no2=median(no2tmean2))
 
 
+##merging data
+fileUrl1 <- "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"
+fileUrl2 <- "https://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"
+download.file(fileUrl1, destfile="./data/reviews.csv", method="curl")
+download.file(fileUrl2, destfile="./data/solutions.csv", method="curl")
+reviews <- read.csv("./data/reviews.csv")
+solutions <- read.csv("./data/solutions.csv")
+head(reviews,2)
+head(solutions,2)
+
+mergeData <- merge(reviews, solutions, by.x="solution_id", by.y="id", all=TRUE)
+head(mergeData)
+
+##default merge all common column names
+intersect(names(solutions), names(reviews))
+mergeData2 <- merge(reviews, solutions, all=TRUE)
+head(mergeData2)
+
+##using join in plyr 
+df1 <- data.frame(id=sample(1:10),x=rnorm(10))
+df2 <- data.frame(id=sample(1:10),y=rnorm(10))
+arrange(join(df1,df2),id)
+##join multiple data frame
+df1 <- data.frame(id=sample(1:10),x=rnorm(10))
+df2 <- data.frame(id=sample(1:10),y=rnorm(10))
+df3 <- data.frame(id=sample(1:10),z=rnorm(10))
+dfList <- list(df1,df2,df3)
+join_all(dfList)
+
