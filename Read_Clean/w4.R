@@ -86,3 +86,7 @@ ymd_hms("2011-08-03 10:11:12", tz="Pacific/Auckland")
 wday(d1)
 wday(d1,label=T)
 
+
+Sys.getlocale("LC_TIME")
+help(package = lubridate)
+

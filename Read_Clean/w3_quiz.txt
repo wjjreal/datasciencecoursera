@@ -91,7 +91,7 @@ What is the average GDP ranking for the "High income: OECD" and "High income: no
 30, 37
 
 
-32.96667, 91.91304
+32.96667, 91.91304			X
 
 
 23, 30
@@ -122,6 +122,6 @@ are Lower middle income but among the 38 nations with highest GDP?
 0
 
 
-5
+5 X
 
 1 point
