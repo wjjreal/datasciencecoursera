@@ -36,4 +36,7 @@ names(one_subject) <- c("Subject")
 ## add subject to data set
 one_ds <- cbind(one_subject, one_ds)
 
-
+## data set with the average of each variable for each activity and each subject
+one_ds$Subject <- as.factor(one_ds$Subject)
+one_ds$Activity <- as.factor(one_ds$Activity)
+avg_ds <- aggregate(one_ds[-c(1,2)],by=list(Subject=one_ds$Subject,Activity=one_ds$Activity),mean)
