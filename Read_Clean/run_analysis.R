@@ -23,7 +23,7 @@ one_activity$V1 <- sapply(one_activity$V1, switch, "WALKING", "WALKING_UPSTAIRS"
 ## change column name
 names(one_activity) <- c("Activity")
 ## add activity to data set
-one_ds <- cbind(one_activity, one_ds)
+extract_ds <- cbind(one_activity, extract_ds)
 
 ## train subject
 train_subject <- read.table("data/UCI HAR Dataset/train/subject_train.txt")
@@ -34,9 +34,13 @@ one_subject <- rbind(train_subject, test_subject)
 ## change column name
 names(one_subject) <- c("Subject")
 ## add subject to data set
-one_ds <- cbind(one_subject, one_ds)
+extract_ds <- cbind(one_subject, extract_ds)
 
 ## data set with the average of each variable for each activity and each subject
-one_ds$Subject <- as.factor(one_ds$Subject)
-one_ds$Activity <- as.factor(one_ds$Activity)
-avg_ds <- aggregate(one_ds[-c(1,2)],by=list(Subject=one_ds$Subject,Activity=one_ds$Activity),mean)
+extract_ds$Subject <- as.factor(extract_ds$Subject)
+extract_ds$Activity <- as.factor(extract_ds$Activity)
+avg_ds <- aggregate(extract_ds[-c(1,2)],by=list(Subject=extract_ds$Subject,Activity=extract_ds$Activity),mean)
+
+## write dataset to disk
+write.table(extract_ds,file="extract.txt",row.names=FALSE)
+write.table(avg_ds,file="average.txt",row.names=FALSE)
