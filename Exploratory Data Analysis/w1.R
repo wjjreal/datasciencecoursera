@@ -58,6 +58,7 @@ library(ggplot2)
 data(mpg)
 qplot(displ, hwy, data=mpg)
 
+<<<<<<< HEAD
 library(datasets)
 hist(airquality$Ozone)
 
@@ -99,15 +100,69 @@ x <- rnorm(100)
 hist(x)
 
 
+######################
+
+x <- rnorm(100)
+y <- rnorm(100)
+plot(x,y)
+
+par(mar=c(2,2,2,2))
+plot(x,y)
+
+par(mar=c(4,4,2,2))
+plot(x,y)
+plot(x,y, pch=1)
+plot(x,y, pch=2)
+plot(x,y, pch=3)
+plot(x,y, pch=4)
+plot(x,y, pch=5)
+plot(x,y, pch=6)
+plot(x,y, pch=7)
+plot(x,y, pch=8)
+plot(x,y, pch=9)
+plot(x,y, pch=10)
+plot(x,y, pch=11)
+plot(x,y, pch=12)
+plot(x,y, pch=13)
+plot(x,y, pch=14)
+plot(x,y, pch=15)
+plot(x,y, pch=16)
+plot(x,y, pch=17)
+plot(x,y, pch=18)
+plot(x,y, pch=19)
+plot(x,y, pch=20)
+plot(x,y, pch=21, col="red", bg="yellow")
+title("scatterplot")
+text(-1,-2, "label")
+legend("topleft", legend="data" )
+fit <-lm(y ~x)
+abline(fit)
+abline(fit, lwd=3, col="blue")
+
+x <- rnorm(100)
+y <- x+rnorm(100)
+plot(x,y,type="n")
+g <- gl(2,50,labels=c("Male","Female"))
+points(x[g=="Male"],y[g=="Male"],col="blue")
+points(x[g=="Female"],y[g=="Female"],col="red")
+
+## plot devices
+library(datasets)
+with(faithful,plot(eruptions, waiting))
+title(main="title")
+
+pdf("myplot.pdf")
+with(faithful,plot(eruptions, waiting))
+title(main="title")
+dev.off()
+
+with(faithful,plot(eruptions, waiting))
+title(main="title")
+dev.copy(png,file="myplot.png")
+dev.off()
 
 
-
-
-
-
-
-
-
+## swirl
 
 
 
